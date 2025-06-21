@@ -2,29 +2,42 @@ package com.bazar.bazarbooks.model;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
+@Schema(name = "Cart", description = "Representa o carrinho de compras de um usuário")
 public class Cart {
 
     @Id
-    private int idCart;
-    @ManyToOne
-    @JoinColumn(name = "idUser")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único do carrinho", example = "cart1234")
+    private int id_cart;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser", nullable = false, unique = true)
+    @Schema(description = "Usuário dono do carrinho")
     private User user;
-    @OneToMany(mappedBy = "cart")
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(description = "Lista de itens do carrinho")
+    @JsonManagedReference
     private List<CartItem> items;
 
-    public int getIdCart() {
-        return idCart;
+    public Cart() {}
+
+    public Cart(User user) {
+        this.user = user;
     }
 
-    public void setIdCart(int idCart) {
-        this.idCart = idCart;
+    public int getId() {
+        return id_cart;
+    }
+
+    public void setId(int id) {
+        this.id_cart = id;
     }
 
     public User getUser() {
@@ -43,4 +56,11 @@ public class Cart {
         this.items = items;
     }
 
+    @Transient
+    @Schema(description = "Valor total de todos os itens do carrinho", example = "89.90")
+    public double getTotal() {
+        return items.stream()
+                    .mapToDouble(CartItem::getSubtotal)
+                    .sum();
+    }
 }
