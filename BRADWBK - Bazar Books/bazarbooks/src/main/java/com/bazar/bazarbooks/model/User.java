@@ -2,6 +2,8 @@ package com.bazar.bazarbooks.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,12 +14,12 @@ import jakarta.persistence.OneToMany;
 public class User {
 
     @Id
-    //gerando valor para o id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUser;
     private String name;
     private String email;
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Address> addresses;
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
