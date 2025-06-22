@@ -23,13 +23,6 @@ CREATE TABLE Address (
     CONSTRAINT fk_address_user FOREIGN KEY (id_user) REFERENCES User(id_user)
 );
 
-CREATE TABLE Author (
-    id_author INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    image_url VARCHAR(500),
-    description TEXT
-);
-
 CREATE TABLE Book (
     id_book INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -38,13 +31,11 @@ CREATE TABLE Book (
     price VARCHAR(50),
     rating DOUBLE,
     review_count INT,
-    store VARCHAR(255),
-    id_author INT,
-    CONSTRAINT fk_book_author FOREIGN KEY (id_author) REFERENCES Author(id_author)
+    store VARCHAR(255)
 );
 
 CREATE TABLE Cart (
-    id_cart INT PRIMARY KEY AUTO_INCREMENT,
+    id_cart INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     id_user INT UNIQUE,
     CONSTRAINT fk_cart_user FOREIGN KEY (id_user) REFERENCES User(id_user)
 );
