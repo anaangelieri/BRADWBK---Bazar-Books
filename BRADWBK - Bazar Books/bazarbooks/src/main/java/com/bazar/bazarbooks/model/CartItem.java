@@ -1,46 +1,54 @@
 package com.bazar.bazarbooks.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
+@Schema(name = "CartItem", description = "Representa um item dentro de um carrinho de compras")
 public class CartItem {
 
     @Id
-    private int idCartItem;
-    private int quantity;
-    private double uniPrice;
-    @ManyToOne
-    @JoinColumn(name = "idCart")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único do item no carrinho", example = "item456")
+    private int id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", nullable = false)
+    @Schema(description = "Carrinho ao qual este item pertence")
+    @JsonBackReference
     private Cart cart;
-    @ManyToOne
-    @JoinColumn(name = "idBook")
-    private Book book;
 
-    public int getIdCartItem() {
-        return idCartItem;
-    }
+    @Column(nullable = false)
+    @Schema(description = "ID do livro associado ao item", example = "book789")
+    private Integer bookId;
 
-    public void setIdCartItem(int idCartItem) {
-        this.idCartItem = idCartItem;
-    }
+    @Column(nullable = false)
+    @Schema(description = "Preço unitário do livro no momento da adição", example = "29.90")
+    private double unitPrice;
 
-    public int getQuantity() {
-        return quantity;
-    }
+    @Column(nullable = false)
+    @Schema(description = "Quantidade do livro no carrinho", example = "2")
+    private int quantity;
 
-    public void setQuantity(int quantity) {
+    public CartItem() {}
+
+    public CartItem(Integer id, Cart cart, Integer bookId, double unitPrice, int quantity) {
+        this.id = id;
+        this.cart = cart;
+        this.bookId = bookId;
+        this.unitPrice = unitPrice;
         this.quantity = quantity;
     }
 
-    public double getUniPrice() {
-        return uniPrice;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUniPrice(double uniPrice) {
-        this.uniPrice = uniPrice;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Cart getCart() {
@@ -51,12 +59,33 @@ public class CartItem {
         this.cart = cart;
     }
 
-    public Book getBook() {
-        return book;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    @Transient
+    @Schema(description = "Subtotal do item no carrinho", example = "59.80")
+    public double getSubtotal() {
+        return unitPrice * quantity;
+    }
 }
