@@ -24,6 +24,7 @@ public class Address {
     private double longitude;
     @ManyToOne
     @JoinColumn(name = "idUser")
+    @JsonBackReference
     private User user;
 
     public int getIdAddress() {
