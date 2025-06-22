@@ -22,7 +22,7 @@ public class User {
     @JsonManagedReference
     private List<Address> addresses;
     @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+    private List<Notification> notification;
 
     public User() {
 
@@ -61,11 +61,11 @@ public class User {
     }
 
     public List<Notification> getNotifications() {
-        return notifications;
+        return notification;
     }
 
     public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
+        this.notification = notifications;
     }
 
 }

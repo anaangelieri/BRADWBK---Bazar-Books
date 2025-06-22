@@ -2,22 +2,31 @@ package com.bazar.bazarbooks.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idNotification;
     private String title;
     private String message;
-    private boolean read;
+    private boolean isRead;
     private LocalDateTime sentDate;
+
     @ManyToOne
     @JoinColumn(name = "idUser")
+    @JsonBackReference
     private User user;
 
     public int getIdNotification() {
@@ -44,12 +53,12 @@ public class Notification {
         this.message = message;
     }
 
-    public boolean isRead() {
-        return read;
+    public boolean isisRead() {
+        return isRead;
     }
 
-    public void setRead(boolean read) {
-        this.read = read;
+    public void setisRead(boolean isRead) {
+        this.isRead = isRead;
     }
 
     public LocalDateTime getSentDate() {

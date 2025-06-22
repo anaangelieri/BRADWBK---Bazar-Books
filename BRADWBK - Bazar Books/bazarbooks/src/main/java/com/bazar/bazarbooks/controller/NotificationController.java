@@ -10,7 +10,7 @@ import com.bazar.bazarbooks.model.Notification;
 import com.bazar.bazarbooks.service.NotificationService;
 
 @RestController
-@RequestMapping("notifications")
+@RequestMapping("/notification")
 public class NotificationController {
 
     @Autowired
@@ -34,13 +34,6 @@ public class NotificationController {
         }
         return ResponseEntity.notFound().build();
     }
-
-    // @PostMapping -- sem adiconar um livro como favorito
-    // public ResponseEntity<Notification> putNotification(@RequestBody Notification
-    // notification) {
-    // Notification created = notificationService.putNotification(notification);
-    // return ResponseEntity.ok(created);
-    // }
 
     @PostMapping("/user/{userId}/book/{bookId}/favorite")
     public ResponseEntity<Notification> createFavoriteNotification(
@@ -74,5 +67,6 @@ public class NotificationController {
         }
         return ResponseEntity.notFound().build();
     }
+
 
 }

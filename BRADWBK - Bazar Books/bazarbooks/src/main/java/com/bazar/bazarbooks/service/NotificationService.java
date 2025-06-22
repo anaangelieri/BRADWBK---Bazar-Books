@@ -26,7 +26,6 @@ public class NotificationService {
     @Autowired
     private BookRepository bookRepository;
 
-    // Post - quando um livro é adicionado aos favoritos
     public Notification createNotificationForFavorite(int userId, int bookId) {
         User user = userRepository.findById(userId).orElse(null);
         Book book = bookRepository.findById(bookId).orElse(null);
@@ -40,17 +39,17 @@ public class NotificationService {
         notification.setTitle("Livro favoritado");
         notification.setMessage("Você favoritou o livro: " + book.getTitle());
         notification.setSentDate(LocalDateTime.now());
-        notification.setRead(false);
+        notification.setisRead(false);
 
         return notificationRepository.save(notification);
     }
 
     public List<Notification> getAllNotificationsByUserOrdered(int userId) {
-        return notificationRepository.findByUserIdUserOrderBySentDateDesc(userId); // busca todas
+        return notificationRepository.findByUserIdUserOrderBySentDateDesc(userId); 
     }
 
     public List<Notification> getUnreadNotificationsByUserOrdered(int userId) {
-        return notificationRepository.findByUserIdUserAndReadFalseOrderBySentDateDesc(userId); // Busca as que não foram lidas
+        return notificationRepository.findByUserIdUserAndIsReadFalseOrderBySentDateDesc(userId); 
     }
 
     public Notification getNotificationById(int id) {
@@ -61,7 +60,7 @@ public class NotificationService {
         Optional<Notification> optional = notificationRepository.findById(id);
         if (optional.isPresent()) {
             Notification notification = optional.get();
-            notification.setRead(true);
+            notification.setisRead(true);
             notificationRepository.save(notification);
             return true;
         }
