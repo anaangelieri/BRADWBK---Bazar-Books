@@ -21,19 +21,9 @@ public class User {
     private List<Address> addresses;
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
-    @OneToMany(mappedBy = "user")
-    private List<Cart> cart;
 
     public User() {
 
-    }
-
-    public List<Cart> getCart() {
-        return cart;
-    }
-
-    public void setCart(List<Cart> cart) {
-        this.cart = cart;
     }
 
     public int getIdUser() {
