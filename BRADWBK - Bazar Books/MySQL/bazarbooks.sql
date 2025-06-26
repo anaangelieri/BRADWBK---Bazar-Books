@@ -71,9 +71,3 @@ CREATE TABLE Notification (
 );
 
 
-
-INSERT INTO User (name, email) VALUES ('João', 'joao@gmail.com');
-INSERT INTO User (name, email) VALUES ('Maria', 'maria@gmail.com');
-INSERT INTO User (name, email) VALUES ('Pedro', 'pedro@gmail.com');
-INSERT INTO User (name, email) VALUES ('Ana', 'ana@gmail.com');
-INSERT INTO User (name, email) VALUES ('Lucas', 'lucas@gmail.com');
