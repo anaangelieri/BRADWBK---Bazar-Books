@@ -56,7 +56,7 @@ public class AuthorController {
     public ResponseEntity<String> deleteAuthor(@PathVariable int id) {
         boolean deleted = authorService.deleteAuthor(id);
         if (deleted) {
-            return ResponseEntity.ok("Author successfully removed!");
+            return ResponseEntity.ok("Autor apagado com sucesso!");
         }
         return ResponseEntity.notFound().build();
     }
